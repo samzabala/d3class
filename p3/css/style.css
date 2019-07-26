@@ -1,7 +1,21 @@
 body {
-    background: #C3C3E6;
+    background: #FFCDB2;
 }
 svg {
-    fill: #87255B;
-    stroke: #BBA0CA;
+    fill: #E5989B;
+}
+
+.exit {
+    fill: #6D6875;
+}
+
+svg .labels line,
+svg .labels path  {
+
+    stroke: #B5838D;
+}
+
+svg text {
+    fill: #B5838D;
+
 }

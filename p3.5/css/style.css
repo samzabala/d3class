@@ -1,0 +1,21 @@
+body {
+    background: #FFCDB2;
+}
+svg {
+    fill: #E5989B;
+}
+
+.exit {
+    fill: #6D6875;
+}
+
+svg .labels line,
+svg .labels path  {
+
+    stroke: #B5838D;
+}
+
+svg text {
+    fill: #B5838D;
+
+}

@@ -1,0 +1,21 @@
+body {
+    background: #3A4454;
+}
+svg {
+    fill: #6B4E71;
+}
+
+.exit {
+    fill: #53687E;
+}
+
+svg .labels line,
+svg .labels path  {
+
+    stroke: #53687E;
+}
+
+svg text {
+    fill: #53687E;
+
+}
