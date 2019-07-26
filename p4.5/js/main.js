@@ -10,7 +10,7 @@ var def = {
     height: 600,
     margin: 20,
     flag:true,
-    // // duration: d3.transition().duration(50),
+    duration: d3.transition().duration(250),
     area:'population',
     y:'life_exp',
     x:'income',
@@ -128,7 +128,7 @@ var color = d3.scaleOrdinal()
 
             //delete fuckholes
             bitches.exit()
-                // .transition(def.duration)
+                .transition(def.duration)
                 .attr('r',0)
                 .attr('fill-opacity',0)
                 .remove()
@@ -153,7 +153,7 @@ var color = d3.scaleOrdinal()
                     return color(dis[def.id])
                 })
                 .merge(bitches) //use same calls for update from here so less repitir 
-                // .transition(def.duration)
+                .transition(def.duration)
                     .attr('cx',(dis,i)=>{
                         return dis[def.x] == null ? 0 : x(dis[def.x]) 
                     })
@@ -195,7 +195,7 @@ d3.json('data/data.json').then(data => {
         // At the end of our data, loop back
         time = (time < 214) ? time+1 : 0
         update(formattedData[time],data[0].year);            //ahhhh
-    }, 100);
+    }, 500);
 });
 
 
