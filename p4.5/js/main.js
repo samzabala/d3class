@@ -10,7 +10,7 @@ var def = {
     height: 600,
     margin: 20,
     flag:true,
-    duration: d3.transition().duration(250),
+    // duration: d3.transition().duration(200),
     area:'population',
     y:'life_exp',
     x:'income',
@@ -25,7 +25,17 @@ var g = svg.append('g')
     .attr('transform','translate('+def.margin * 3 +','+def.margin * 6+')');
 
 
+    var tip = d3.tip().attr('class', 'd3-tip')
+        .html(dis=> {
+            var text = "<strong style=\"opacity:.5;font-weight:400;\">Count: </strong>"+dis.country+"<br>";
+            text += "<strong style=\"opacity:.5;font-weight:400;\">Cont: </strong>"+dis.country+"<br>";
+            text += "<strong style=\"opacity:.5;font-weight:400;\">Life Expectancy: </strong>"+d3.format(".2f")(dis.life_exp)+"<br>";
+            text += "<strong style=\"opacity:.5;font-weight:400;\">GDP Per Capita: </strong>"+d3.format("$,.0f")(dis.income)+"<br>";
+            text += "<strong style=\"opacity:.5;font-weight:400;\">Population: </strong>"+d3.format(",.0f")(dis.population)+"<br>";
 
+            return text
+        })
+    g.call(tip);
 // X Label
     var xLab = g.append('text')
         .attr('y', def.height + 50)
@@ -44,10 +54,10 @@ var g = svg.append('g')
         .text(def.y);
     
 var timeLabel = g.append("text")
-    .attr("y", def.height - def.margin)
+    .attr("y", def.height - (def.margin * 1.5))
     .attr("x", def.width -  def.margin)
     .attr("font-size", "40px")
-    .attr("opacity", "0.4")
+    
     .attr("text-anchor", "middle")
 //scale
     var xUnit = g.append('g')
@@ -90,7 +100,31 @@ var timeLabel = g.append("text")
 
 
 var color = d3.scaleOrdinal()
-        .range(['#F5DDDD','#C2B2B4','#6B4E71','#53687E']);
+        .range(['#F5DDDD','#b68aae','#6B4E71','#53687E']);
+
+var continents = ['europe','asia','americas','africa'];
+
+var legend = g.append('g')
+        .attr('transform','translate('+ (def.width - (def.margin * 3))+','+(def.height - (def.margin * 8))+')')
+
+        continents.forEach((dis,i)=>{
+            var row = legend.append('g')
+                .attr('transform','translate(0,'+(i * def.margin) +')');
+            
+            row.append('text')
+                .attr('transform','translate('+def.margin +','+ (def.margin * .5) +')')
+                .attr('font-size',def.margin * .8)
+                .style("text-transform", "uppercase")
+                .text(continents[i]);
+            row.append('rect')
+                // .attr('x',def.margin * 6)
+                // .attr('y',i * def.margin)
+                .attr('width',10)
+                .attr('height',10)
+                .attr('fill',color(dis))
+
+        })
+
 
 // yes
     function update(dat,daYear) {
@@ -128,7 +162,7 @@ var color = d3.scaleOrdinal()
 
             //delete fuckholes
             bitches.exit()
-                .transition(def.duration)
+                // .transition(def.duration)
                 .attr('r',0)
                 .attr('fill-opacity',0)
                 .remove()
@@ -145,15 +179,17 @@ var color = d3.scaleOrdinal()
                 .attr('cy',(dis,i)=> {
                     return  dis[def.y] == null ? def.height : y(dis[def.y])
                 })
-                .attr('fill-opacity',.8)
+                .attr('fill-opacity',.9)
                 .attr('fill',(dis,i)=> {
                     return color(dis[def.id])
                 })
                 .attr('stroke',(dis,i)=> {
                     return color(dis[def.id])
                 })
+                .on('mouseover',tip.show)
+                .on('mouseout',tip.hide)
                 .merge(bitches) //use same calls for update from here so less repitir 
-                .transition(def.duration)
+                // .transition(def.duration)
                     .attr('cx',(dis,i)=>{
                         return dis[def.x] == null ? 0 : x(dis[def.x]) 
                     })
@@ -195,7 +231,7 @@ d3.json('data/data.json').then(data => {
         // At the end of our data, loop back
         time = (time < 214) ? time+1 : 0
         update(formattedData[time],data[0].year);            //ahhhh
-    }, 500);
+    }, 100);
 });
 
 

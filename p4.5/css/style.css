@@ -1,8 +1,10 @@
 body {
     background: #3A4454;
+    font-family: Roboto;
 }
 svg {
     fill: #6B4E71;
+    font-family: inherit;
 }
 
 .exit {
